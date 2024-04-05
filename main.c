@@ -5,14 +5,11 @@
 
 int main(void) {
 
-  Usuario usuarios[100];
-  Livro livros[100];
-  int numUsuarios = 0;
-  int numLivros = 0;
-  int emprestado;
+  Usuario *cabecaUsuarios = NULL;
+  Livro *cabecaLivros = NULL;
   int opcao;
 
-  copiarDados(usuarios, &numUsuarios, livros, &numLivros);
+  copiarDados(&cabecaUsuarios, &cabecaLivros);
 
   while (1) {
     printf("Seja bem vindo a biblioteca\n");
@@ -23,37 +20,40 @@ int main(void) {
     printf("4 - Devolver livro\n");
     printf("5 - Editar informações do livro\n");
     printf("6 - Buscar Livro por nome\n");
-    printf("7 - Listar usuários e livros emprestados\n");
+    printf("7 - Listar usuários\n");
     printf("8 - Sair\n");
+   // printf("9 - Adicionar livro"); Desenvolvendo
     scanf("%d", &opcao);
     switch (opcao) {
     case 1:
-      adicionarUsuario(usuarios, &numUsuarios); // Funcionando
+      adicionarUsuario(&cabecaUsuarios); // Funcionando
       break;
     case 2:
-      removerUsuario(usuarios, &numUsuarios); // Funcionando
+      removerUsuario(&cabecaUsuarios); // Funcionando
       break;
     case 3:
-      // emprestarLivro(usuarios, livros, numLivros);
+      emprestarLivro(cabecaUsuarios, cabecaLivros); // Funcionando parcialmente
       break;
     case 4:
-      // devolverLivro(usuarios, livros, numLivros);
+      devolverLivro(cabecaUsuarios, cabecaLivros); // Funcionando parcialmente 
       break;
     case 5:
-      // editarLivro(Livro *livros, int numLivros, Livros);
+      editarLivro(cabecaLivros); // Funcionando
       break;
     case 6:
-      // buscarLivro(Livro *livros, int numLivros, Livros);
+      buscarLivro(cabecaLivros); // Funcionando
       break;
     case 7:
-      // listarUsuarios(Livro *livros, int numLivros, Livros);
+      listarUsuarios(cabecaUsuarios); // Funcionando
       break;
     case 8:
-      Sair(usuarios, &numUsuarios, livros, &numLivros);
+      Sair(cabecaUsuarios, cabecaLivros); // Funcionando
       return 0;
       break;
+    // case 9:
+      // adicionarLivro(Livro **cabecaLivros); // Desenvolvendo (por que essa função?)
     default:
-      printf("Opção inválida\n");
+      printf("Opção inválida, tente novamente.\n\n");
     }
   }
   return 0;
