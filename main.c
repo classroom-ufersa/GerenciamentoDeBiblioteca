@@ -44,7 +44,7 @@ int main(void) {
         editarLivro(cabecaUsuarios, &cabecaLivros);
         break;
       case '6':
-        buscarLivro(cabecaUsuarios, &cabecaLivros);
+        buscarLivro(&cabecaLivros);
         break;
       case '7':
         listarUsuarios(cabecaUsuarios);
