@@ -75,7 +75,7 @@ void devolverLivro(Usuario *cabecaUsuarios, Livro **cabecaLivros);
 
 void ordenarAlfabeticamente(Usuario **cabecaUsuarios);
 ```
-
+São dois módulos diferentes com funções diferentes, algumas trabalhando com verificação, ordenação etc...
 # Este projeto foi desenvolvido por
 - Carlos Henrique Duarte Abrantes
 - Luís Otávio Martins Abrantes
