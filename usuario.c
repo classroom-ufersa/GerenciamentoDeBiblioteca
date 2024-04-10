@@ -7,12 +7,12 @@
 
 void adicionarUsuario(Usuario **cabecaUsuarios) {
   printf("\033[2J\033[H");
-  printf("| Adicionar Usuário\n");
+  printf("| Adicionar Usuario\n");
 
   Usuario *novoUsuario = (Usuario *)malloc(sizeof(Usuario));
 
   if (novoUsuario == NULL) {
-    printf("Erro ao alocar memória\n");
+    printf("Erro ao alocar memoria\n");
     return;
   }
 
@@ -36,7 +36,7 @@ void adicionarUsuario(Usuario **cabecaUsuarios) {
   while (atual != NULL) {
     if (strcmp(atual->nome, novoUsuario->nome) == 0 ||
         strcmp(atual->contato, novoUsuario->contato) == 0) {
-      printf("| Nome ou contato já existente!\n|\n");
+      printf("| Nome ou contato ja existente!\n|\n");
       free(novoUsuario);
       return;
     }
@@ -70,13 +70,13 @@ void removerUsuario(Usuario **cabecaUsuarios) {
         *cabecaUsuarios = atual->prox;
       }
       free(atual);
-      printf("| Usuário removido com sucesso.\n|\n");
+      printf("| Usuario removido com sucesso.\n|\n");
       return;
     }
     anterior = atual;
     atual = atual->prox;
   }
-  printf("| Usuário não encontrado.\n|\n");
+  printf("| Usuario não encontrado.\n|\n");
 }
 
 void listarUsuarios(Usuario *cabecaUsuarios) {
@@ -85,12 +85,12 @@ void listarUsuarios(Usuario *cabecaUsuarios) {
   int i = 1;
 
   if (atual == NULL) {
-    printf("|\n| Nenhum usuário cadastrado.\n|\n");
+    printf("|\n| Nenhum usuario cadastrado.\n|\n");
     return;
   }
 
   while (atual != NULL) {
-    printf("| Usuário %d: %s | %s\n", i++, atual->nome, atual->contato);
+    printf("| Usuario %d: %s | %s\n", i++, atual->nome, atual->contato);
     atual = atual->prox;
   }
   printf("|\n");
@@ -148,7 +148,7 @@ void copiarDados(Usuario **cabecaUsuarios, Livro **cabecaLivros) {
                 tempContato, tempLivrosEmprestados) == 3) {
     Usuario *novoUsuario = (Usuario *)malloc(sizeof(Usuario));
     if (novoUsuario == NULL) {
-      printf("Erro ao alocar memória\n");
+      printf("Erro ao alocar memoria\n");
       return;
     }
     strcpy(novoUsuario->nome, tempNome);
@@ -169,7 +169,7 @@ void copiarDados(Usuario **cabecaUsuarios, Livro **cabecaLivros) {
                 &tempCopias) == 5) {
     Livro *novoLivro = (Livro *)malloc(sizeof(Livro));
     if (novoLivro == NULL) {
-      printf("Erro ao alocar memória\n");
+      printf("Erro ao alocar memoria\n");
       return;
     }
     strcpy(novoLivro->titulo, tempTitulo);
@@ -207,24 +207,26 @@ void Sair(Usuario *cabecaUsuarios, Livro *cabecaLivros) {
   return;
 }
 
-int verificar(char *conteudo, int numeroOuLetra) {
+#include <ctype.h>
+#include <stdio.h>
+#include <string.h>
 
+int verificar(char *conteudo, int numeroOuLetra) {
   for (int i = 0; conteudo[i] != '\0'; i++) {
     conteudo[i] = toupper(conteudo[i]);
   }
   for (int i = 0; conteudo[i] != '\0'; i++) {
     if (numeroOuLetra == 1) {
-      if (!isdigit(conteudo[i]) && conteudo[i] != ' ') {
-        printf("| Entrada inválida!\n| Apenas números são permitidos.\n|\n");
+      if (!isdigit(conteudo[i])) {
+        printf("| Entrada invalida!\n| Apenas numeros sao permitidos.\n|\n");
         return 1;
       }
     } else if (numeroOuLetra == 0) {
       if (!isalpha(conteudo[i]) && conteudo[i] != ' ') {
-        printf("| Entrada inválida!\n| Apenas letras são permitidas.\n|\n");
+        printf("| Entrada invalida!\n| Apenas letras sao permitidas.\n|\n");
         return 1;
       }
     }
   }
-
   return 0;
 }
