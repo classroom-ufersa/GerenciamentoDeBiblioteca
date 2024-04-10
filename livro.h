@@ -15,7 +15,7 @@ typedef struct livro {
 
 void editarLivro(Usuario *cabecaUsuarios, Livro **cabecaLivros);
 
-void buscarLivro(Usuario *cabecaUsuarios, Livro **cabecaLivros);
+void buscarLivro(Livro **cabecaLivros);
 
 void emprestarLivro(Usuario *cabecaUsuarios, Livro **cabecaLivros);
 
