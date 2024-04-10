@@ -67,7 +67,7 @@ void Sair(Usuario *cabecaUsuarios, struct livro *cabecaLivros);
 ```c
 void editarLivro(Usuario *cabecaUsuarios, Livro **cabecaLivros);
 
-void buscarLivro(Usuario *cabecaUsuarios, Livro **cabecaLivros);
+void buscarLivro(Livro **cabecaLivros);
 
 void emprestarLivro(Usuario *cabecaUsuarios, Livro **cabecaLivros);
 
