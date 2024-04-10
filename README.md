@@ -5,7 +5,7 @@
 - Sobre nooso projeto
 - Requisitos
 - Arquitetura
-- Devs
+- Desenvolvedores
 
 ## Sobre nosso projeto
 Este é um projeto de gerenciamento de biblioteca em C. Nossa biblioteca virtual é chamada de "Bytes de Livros", O mesmo foi desenvolvido com o objetivo de proporcionar uma maneira eficiente e organizada de administrar uma biblioteca fictícia. Utilizamos duas TADs distintas para representar os livros e os usuários da biblioteca, além de criar um módulo para funções gerais.
