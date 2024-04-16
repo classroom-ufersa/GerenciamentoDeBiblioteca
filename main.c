@@ -26,7 +26,7 @@ int main(void) {
            "| [8] - Sair\n| -> ");
     scanf("%s", opcao);
 
-    if (verificar(opcao, 1) == 0) {
+    if (verificar(opcao, 1) == 0 && conferirCaractere(opcao)) {
       switch (opcao[0]) {
       case '1':
         adicionarUsuario(&cabecaUsuarios);
@@ -54,11 +54,11 @@ int main(void) {
         return 0;
       default:
         printf("\033[2J\033[H");
-        printf("| Opcao invalida, tente novamente.\n\n");
+        printf("| Opcao invalida, tente novamente.\n|\n");
       }
     } else {
       printf("\033[2J\033[H");
-      printf("| Opcao invalida, tente novamente.\n\n");
+      printf("| Opcao invalida, tente novamente.\n|\n");
     }
   }
   return 0;
