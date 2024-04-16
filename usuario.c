@@ -211,7 +211,7 @@ void Sair(Usuario *cabecaUsuarios, Livro *cabecaLivros) {
 #include <stdio.h>
 #include <string.h>
 
-int verificar(char *conteudo, int numeroOuLetra) {
+int verificar(char conteudo[], int numeroOuLetra) {
   for (int i = 0; conteudo[i] != '\0'; i++) {
     conteudo[i] = toupper(conteudo[i]);
   }
@@ -228,5 +228,14 @@ int verificar(char *conteudo, int numeroOuLetra) {
       }
     }
   }
+  return 0;
+}
+
+int conferirCaractere(char conteudo[]) {
+  if (strlen(conteudo) == 1) {
+    return 1;
+  }
+  printf("\033[2J\033[H");
+  printf("| Entrada invalida!\n| Apenas um caractere e permitido.\n|\n");
   return 0;
 }
