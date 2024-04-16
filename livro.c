@@ -5,14 +5,14 @@
 #include <string.h>
 
 void emprestarLivro(Usuario *cabecaUsuarios, Livro **cabecaLivros) {
-  char titulo[500];
-  char usuarioNome[500];
+  char titulo[100];
+  char usuarioNome[100];
 
   printf("\033[2J\033[H");
   printf("| Emprestar Livro\n| Digite o nome do seu usuario:\n| -> ");
   scanf(" %[^\n]", usuarioNome);
 
-  if (verificar(usuarioNome, 0)) {
+  if (verificar(usuarioNome, 0) == 0) {
     return;
   }
 
@@ -22,7 +22,7 @@ void emprestarLivro(Usuario *cabecaUsuarios, Livro **cabecaLivros) {
       printf("| Digite o titulo do livro que deseja pegar emprestado:\n| -> ");
       scanf(" %[^\n]", titulo);
 
-      if (verificar(titulo, 0)) {
+      if (verificar(titulo, 0) == 0) {
         return;
       }
 
@@ -50,22 +50,25 @@ void emprestarLivro(Usuario *cabecaUsuarios, Livro **cabecaLivros) {
     usuarioAtual = usuarioAtual->prox;
   }
   printf("| Usuário nao encontrado.\n|\n");
+  return;
 }
 
 void devolverLivro(Usuario *cabecaUsuarios, Livro **cabecaLivros) {
-  char titulo[500];
-  char nome[500];
+  char titulo[100];
+  char nome[100];
 
   printf("\033[2J\033[H");
   printf("| Devolver Livro\n");
+
   printf("| Digite o seu usuario:\n| -> ");
   scanf(" %[^\n]", nome);
-  if (verificar(nome, 0)) {
+  if (verificar(nome, 0) == 0) {
     return;
   }
-  printf("| Digite o titulo do livro que deseja devolver:\n| ->");
+
+  printf("| Digite o titulo do livro que deseja devolver:\n| -> ");
   scanf(" %[^\n]", titulo);
-  if (verificar(titulo, 0)) {
+  if (verificar(titulo, 0) == 0) {
     return;
   }
 
@@ -74,12 +77,15 @@ void devolverLivro(Usuario *cabecaUsuarios, Livro **cabecaLivros) {
     if (strcmp(usuarioAtual->nome, nome) == 0) {
       char *livrosEmprestados = usuarioAtual->livrosEmprestados;
       char *livroEmprestado = strtok(livrosEmprestados, "|");
+
       while (livroEmprestado != NULL) {
-        char tempTitulo[500];
+        char tempTitulo[100];
         sscanf(livroEmprestado, "%[^'\t']", tempTitulo);
+
         if (strcmp(tempTitulo, titulo) == 0) {
           strcpy(livroEmprestado, "");
           Livro *livroAtual = *cabecaLivros;
+
           while (livroAtual != NULL) {
             if (strcmp(livroAtual->titulo, titulo) == 0) {
               livroAtual->copias++;
@@ -93,91 +99,105 @@ void devolverLivro(Usuario *cabecaUsuarios, Livro **cabecaLivros) {
         }
         livroEmprestado = strtok(NULL, "|");
       }
+      printf("\033[2J\033[H");
+      printf("| Livro nao encontrado.\n|\n");
       return;
     }
     usuarioAtual = usuarioAtual->prox;
   }
+
   printf("\033[2J\033[H");
   printf("| Usuario nao encontrado.\n|\n");
 }
 
 void editarLivro(Usuario *cabecaUsuarios, Livro **cabecaLivros) {
-  char titulo[500];
+  char titulo[100];
   printf("\033[2J\033[H");
-  printf("| Editar Livro\n");
+  printf("| Editar Livro\n|\n");
   printf("| Digite o titulo do livro que deseja editar:\n| -> ");
   scanf(" %[^\n]", titulo);
-  if (verificar(titulo, 0)) {
+
+  if (verificar(titulo, 0) == 0) {
     return;
   }
 
   Livro *atual = *cabecaLivros;
 
   while (atual != NULL) {
-    if (strcmp(atual->titulo, titulo) == 0) {
+    if (strcmp(atual->titulo, titulo) == 0 && atual->copias != 0) {
       char opcao;
-      printf("| Livro encontrado!\n");
+      printf("|\n| Livro encontrado!\n");
 
-      printf("| Deseja editar o titulo? [S/N]\n| -> ");
+      printf("|\n| Deseja editar o titulo? [S/N]\n| -> ");
       scanf("%s", &opcao);
-      verificar(&opcao, 0);
+      if (verificar(&opcao, 0) == 0) {
+        return;
+      }
       if (opcao == 'S') {
-        char tempTitulo[500];
-        printf("| Digite o novo titulo do livro: ");
+        char tempTitulo[100];
+        printf("|\n| Digite o novo titulo do livro: ");
         scanf(" %[^\n]", tempTitulo);
-        if (verificar(tempTitulo, 0)) {
+        if (verificar(tempTitulo, 0) == 0) {
           return;
         }
         strcpy(atual->titulo, tempTitulo);
       }
 
-      printf("| Deseja editar o autor? [S/N]\n| -> ");
+      printf("|\n| Deseja editar o autor? [S/N]\n| -> ");
       scanf("%s", &opcao);
-      verificar(&opcao, 0);
+      if (verificar(&opcao, 0) == 0) {
+        return;
+      }
       if (opcao == 'S') {
         char tempAutor[100];
-        printf("| Digite o novo autor do livro: ");
+        printf("|\n| Digite o novo autor do livro: ");
         scanf(" %[^\n]", tempAutor);
-        if (verificar(tempAutor, 0)) {
+        if (verificar(tempAutor, 0) == 0) {
           return;
         }
         strcpy(atual->autor, tempAutor);
       }
 
-      printf("| Deseja editar a editora? [S/N]\n| -> ");
+      printf("|\n| Deseja editar a editora? [S/N]\n| -> ");
       scanf("%s", &opcao);
-      verificar(&opcao, 0);
+      if (verificar(&opcao, 0) == 0) {
+        return;
+      }
       if (opcao == 'S') {
         char tempEditora[100];
-        printf("| Digite a nova editora do livro: ");
+        printf("|\n| Digite a nova editora do livro: ");
         scanf(" %[^\n]", tempEditora);
-        if (verificar(tempEditora, 0)) {
+        if (verificar(tempEditora, 0) == 0) {
           return;
         }
         strcpy(atual->editora, tempEditora);
       }
 
-      printf("| Deseja editar o ano de publicacao? [S/N]\n| -> ");
+      printf("|\n| Deseja editar o ano de publicacao? [S/N]\n| -> ");
       scanf("%s", &opcao);
-      verificar(&opcao, 0);
+      if (verificar(&opcao, 0) == 0) {
+        return;
+      }
       if (opcao == 'S') {
         char tempAno[20];
-        printf("| Digite o novo ano de publicacao do livro: ");
+        printf("|\n| Digite o novo ano de publicacao do livro: ");
         scanf("%s", tempAno);
-        if (verificar(tempAno, 1)) {
+        if (verificar(tempAno, 1) == 0) {
           return;
         }
         atual->anoPublicacao = atoi(tempAno);
       }
 
-      printf("| Deseja editar o numero de cópias? [S/N]\n| -> ");
+      printf("|\n| Deseja editar o numero de cópias? [S/N]\n| -> ");
       scanf("%s", &opcao);
-      verificar(&opcao, 0);
+      if (verificar(&opcao, 0) == 0) {
+        return;
+      }
       if (opcao == 'S') {
-        char tempCopias[20];
-        printf("| Digite o novo numero de cópias do livro: ");
+        char tempCopias[100];
+        printf("|\n| Digite o novo numero de cópias do livro: ");
         scanf("%s", tempCopias);
-        if (verificar(tempCopias, 1)) {
+        if (verificar(tempCopias, 1) == 0) {
           return;
         }
         atual->copias = atoi(tempCopias);
@@ -186,18 +206,17 @@ void editarLivro(Usuario *cabecaUsuarios, Livro **cabecaLivros) {
     }
     atual = atual->prox;
   }
-  printf("| Livro não encontrado.\n|\n");
+  printf("| Livro não encontrado ou indisponivel.\n|\n");
 }
 
 void buscarLivro(Livro **cabecaLivros) {
-  char titulo[500];
+  char titulo[100];
   printf("\033[2J\033[H");
   printf("| Buscar Livro\n");
   printf("| Digite o título do livro que deseja buscar:\n| -> ");
   scanf(" %[^\n]", titulo);
-  printf("\033[2J\033[H");
 
-  if (verificar(titulo, 0)) {
+  if (verificar(titulo, 0) == 0) {
     return;
   }
 
@@ -205,7 +224,7 @@ void buscarLivro(Livro **cabecaLivros) {
 
   while (livroAtual != NULL) {
     if (strcmp(livroAtual->titulo, titulo) == 0) {
-      printf("| Titulo: %s\n", livroAtual->titulo);
+      printf("\n| Titulo: %s\n", livroAtual->titulo);
       printf("| Autor: %s\n", livroAtual->autor);
       printf("| Editora: %s\n", livroAtual->editora);
       printf("| Ano de Publicacao: %d\n", livroAtual->anoPublicacao);
@@ -215,7 +234,7 @@ void buscarLivro(Livro **cabecaLivros) {
     livroAtual = livroAtual->prox;
   }
 
-  printf("Livro nao encontrado.\n");
+  printf("| Livro nao encontrado.\n|\n");
 }
 
 void ordenarAlfabeticamente(Usuario **cabecaUsuarios) {
