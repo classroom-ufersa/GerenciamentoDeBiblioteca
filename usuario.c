@@ -18,7 +18,7 @@ void adicionarUsuario(Usuario **cabecaUsuarios) {
 
   printf("| Digite o nome do usuario:\n| -> ");
   scanf(" %[^\n]", novoUsuario->nome);
-  if (verificar(novoUsuario->nome, 0)) {
+  if (verificar(novoUsuario->nome, 0) == 0) {
     free(novoUsuario);
     return;
   }
@@ -26,7 +26,7 @@ void adicionarUsuario(Usuario **cabecaUsuarios) {
   printf("| Digite o contato do usuario:\n| -> ");
   scanf(" %[^\n]", novoUsuario->contato);
 
-  if (verificar(novoUsuario->contato, 1)) {
+  if (verificar(novoUsuario->contato, 1) == 0) {
     free(novoUsuario);
     return;
   }
@@ -55,7 +55,7 @@ void removerUsuario(Usuario **cabecaUsuarios) {
   printf("| Remover Usuario\n");
   printf("| Digite o nome do usuario que deseja remover:\n| -> ");
   scanf(" %[^\n]", nome);
-  if (verificar(nome, 0)) {
+  if (verificar(nome, 0) == 0) {
     return;
   }
 
@@ -207,11 +207,7 @@ void Sair(Usuario *cabecaUsuarios, Livro *cabecaLivros) {
   return;
 }
 
-#include <ctype.h>
-#include <stdio.h>
-#include <string.h>
-
-int verificar(char conteudo[], int numeroOuLetra) {
+int verificar(char *conteudo, int numeroOuLetra) {
   for (int i = 0; conteudo[i] != '\0'; i++) {
     conteudo[i] = toupper(conteudo[i]);
   }
@@ -219,19 +215,19 @@ int verificar(char conteudo[], int numeroOuLetra) {
     if (numeroOuLetra == 1) {
       if (!isdigit(conteudo[i])) {
         printf("| Entrada invalida!\n| Apenas numeros sao permitidos.\n|\n");
-        return 1;
+        return 0;
       }
     } else if (numeroOuLetra == 0) {
       if (!isalpha(conteudo[i]) && conteudo[i] != ' ') {
         printf("| Entrada invalida!\n| Apenas letras sao permitidas.\n|\n");
-        return 1;
+        return 0;
       }
     }
   }
-  return 0;
+  return 1;
 }
 
-int conferirCaractere(char conteudo[]) {
+int conferirCaractere(char *conteudo) {
   if (strlen(conteudo) == 1) {
     return 1;
   }
