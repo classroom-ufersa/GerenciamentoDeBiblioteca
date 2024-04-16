@@ -4,9 +4,9 @@
 #include "usuario.h"
 
 typedef struct livro {
-  char titulo[500];
-  char autor[500];
-  char editora[500];
+  char titulo[200];
+  char autor[200];
+  char editora[200];
   int anoPublicacao;
   int copias;
   struct livro *prox;
