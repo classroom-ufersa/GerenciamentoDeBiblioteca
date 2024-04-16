@@ -63,56 +63,42 @@ void devolverLivro(Usuario *cabecaUsuarios, Livro **cabecaLivros) {
   if (verificar(nome, 0)) {
     return;
   }
-  printf("| Digite o titulo do livro que deseja devolver:\n| -> ");
+  printf("| Digite o titulo do livro que deseja devolver:\n| ->");
   scanf(" %[^\n]", titulo);
   if (verificar(titulo, 0)) {
     return;
   }
+
   Usuario *usuarioAtual = cabecaUsuarios;
   while (usuarioAtual != NULL) {
     if (strcmp(usuarioAtual->nome, nome) == 0) {
-      char *livrosEmprestados = strdup(usuarioAtual->livrosEmprestados);
+      char *livrosEmprestados = usuarioAtual->livrosEmprestados;
       char *livroEmprestado = strtok(livrosEmprestados, "|");
-      int livroDevolvido = 0;
-
       while (livroEmprestado != NULL) {
         char tempTitulo[500];
         sscanf(livroEmprestado, "%[^'\t']", tempTitulo);
         if (strcmp(tempTitulo, titulo) == 0) {
-          char *livroAtual =
-              strstr(usuarioAtual->livrosEmprestados, livroEmprestado);
-          if (livroAtual != NULL) {
-            size_t tamanhoLivro = strlen(livroEmprestado);
-            size_t offset = livroAtual - usuarioAtual->livrosEmprestados;
-            memmove(livroAtual, livroAtual + tamanhoLivro + 1,
-                    strlen(livroAtual + tamanhoLivro + 1) + 1);
-          }
-
-          Livro *livroAtualPtr = *cabecaLivros;
-          while (livroAtualPtr != NULL) {
-            if (strcmp(livroAtualPtr->titulo, titulo) == 0) {
-              livroAtualPtr->copias++;
+          strcpy(livroEmprestado, "");
+          Livro *livroAtual = *cabecaLivros;
+          while (livroAtual != NULL) {
+            if (strcmp(livroAtual->titulo, titulo) == 0) {
+              livroAtual->copias++;
               printf("| Livro \"%s\" devolvido com sucesso!\n|\n", titulo);
-              livroDevolvido = 1;
-              break;
+              return;
             }
-            livroAtualPtr = livroAtualPtr->prox;
+            livroAtual = livroAtual->prox;
           }
-          break;
+          printf("\033[2J\033[H");
+          return;
         }
         livroEmprestado = strtok(NULL, "|");
-      }
-      free(livrosEmprestados);
-
-      if (!livroDevolvido) {
-        printf("| Livro \"%s\" não encontrado entre os livros emprestados por "
-              "%s.\n|\n", titulo, nome);
       }
       return;
     }
     usuarioAtual = usuarioAtual->prox;
   }
-  printf("| Usuário não encontrado.\n|\n");
+  printf("\033[2J\033[H");
+  printf("| Usuario nao encontrado.\n|\n");
 }
 
 void editarLivro(Usuario *cabecaUsuarios, Livro **cabecaLivros) {
@@ -209,16 +195,17 @@ void buscarLivro(Livro **cabecaLivros) {
   printf("| Buscar Livro\n");
   printf("| Digite o título do livro que deseja buscar:\n| -> ");
   scanf(" %[^\n]", titulo);
+  printf("\033[2J\033[H");
 
   if (verificar(titulo, 0)) {
     return;
   }
 
   Livro *livroAtual = *cabecaLivros;
-  
+
   while (livroAtual != NULL) {
     if (strcmp(livroAtual->titulo, titulo) == 0) {
-      printf("\n| Titulo: %s\n", livroAtual->titulo);
+      printf("| Titulo: %s\n", livroAtual->titulo);
       printf("| Autor: %s\n", livroAtual->autor);
       printf("| Editora: %s\n", livroAtual->editora);
       printf("| Ano de Publicacao: %d\n", livroAtual->anoPublicacao);
