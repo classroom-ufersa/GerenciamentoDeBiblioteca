@@ -24,8 +24,10 @@ void escreverDados(Usuario *cabecaUsuarios, struct livro *cabecaLivros);
 
 void copiarDados(Usuario **cabecaUsuarios, struct livro **cabecaLivros);
 
-int verificar(char *conteudo, int numeroOuLetra);
+int verificar(char conteudo[], int numeroOuLetra);
 
 void Sair(Usuario *cabecaUsuarios, struct livro *cabecaLivros);
+
+int conferirCaractere(char conteudo[]);
 
 #endif
