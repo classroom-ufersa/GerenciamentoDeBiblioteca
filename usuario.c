@@ -43,14 +43,24 @@ void adicionarUsuario(Usuario **cabecaUsuarios) {
     atual = atual->prox;
   }
 
-  novoUsuario->prox = *cabecaUsuarios;
-  *cabecaUsuarios = novoUsuario;
+  novoUsuario->livros = NULL;
+  novoUsuario->prox = NULL;
+
+  if (*cabecaUsuarios == NULL) {
+    *cabecaUsuarios = novoUsuario;
+  } else {
+    Usuario *atual = *cabecaUsuarios;
+    while (atual->prox != NULL) {
+      atual = atual->prox;
+    }
+    atual->prox = novoUsuario;
+  }
 
   printf("| Usuario adicionado!\n|\n");
 }
 
 void removerUsuario(Usuario **cabecaUsuarios) {
-  char nome[500];
+  char nome[100];
   printf("\033[2J\033[H");
   printf("| Remover Usuario\n");
   printf("| Digite o nome do usuario que deseja remover:\n| -> ");
@@ -82,21 +92,22 @@ void removerUsuario(Usuario **cabecaUsuarios) {
 void listarUsuarios(Usuario *cabecaUsuarios) {
   printf("\033[2J\033[H");
   Usuario *atual = cabecaUsuarios;
-  int i = 1;
 
   if (atual == NULL) {
     printf("|\n| Nenhum usuario cadastrado.\n|\n");
     return;
   }
 
+  ordenarAlfabeticamente(&cabecaUsuarios);
+
   while (atual != NULL) {
-    printf("| Usuario %d: %s | %s\n", i++, atual->nome, atual->contato);
+    printf("| Usuário: %s | Contato: %s\n", atual->nome, atual->contato);
     atual = atual->prox;
   }
   printf("|\n");
 }
 
-void escreverDados(Usuario *cabecaUsuarios, Livro *cabecaLivros) {
+void escreverDados(Usuario *cabecaUsuarios) {
   FILE *arquivoUsuarios = fopen("usuarios.txt", "w");
   FILE *arquivoLivros = fopen("livros.txt", "w");
 
@@ -106,8 +117,9 @@ void escreverDados(Usuario *cabecaUsuarios, Livro *cabecaLivros) {
   }
 
   Usuario *atualUsuario = cabecaUsuarios;
+
   while (atualUsuario != NULL) {
-    if (strcmp(atualUsuario->livrosEmprestados, "|") == 0) {
+    if (strcmp(atualUsuario->livrosEmprestados, "") == 0) {
       fprintf(arquivoUsuarios, "%s\t%s\n|NENHUM\n", atualUsuario->nome,
               atualUsuario->contato);
     } else {
@@ -117,7 +129,8 @@ void escreverDados(Usuario *cabecaUsuarios, Livro *cabecaLivros) {
     atualUsuario = atualUsuario->prox;
   }
 
-  Livro *atualLivro = cabecaLivros;
+  Livro *atualLivro = cabecaUsuarios->livros;
+
   while (atualLivro != NULL) {
     if (atualLivro->copias != 0) {
       fprintf(arquivoLivros, "%s\t%s\t%s\t%d\t%d\n", atualLivro->titulo,
@@ -131,7 +144,7 @@ void escreverDados(Usuario *cabecaUsuarios, Livro *cabecaLivros) {
   fclose(arquivoLivros);
 }
 
-void copiarDados(Usuario **cabecaUsuarios, Livro **cabecaLivros) {
+void copiarDados(Usuario **cabecaUsuarios) {
   FILE *arquivoUsuarios = fopen("usuarios.txt", "r");
   FILE *arquivoLivros = fopen("livros.txt", "r");
 
@@ -140,9 +153,9 @@ void copiarDados(Usuario **cabecaUsuarios, Livro **cabecaLivros) {
     return;
   }
 
-  char tempNome[500];
-  char tempContato[500];
-  char tempLivrosEmprestados[500];
+  char tempNome[300];
+  char tempContato[300];
+  char tempLivrosEmprestados[300];
 
   while (fscanf(arquivoUsuarios, " %[^\t] \t %[^\n] \n %[^\n]", tempNome,
                 tempContato, tempLivrosEmprestados) == 3) {
@@ -158,9 +171,9 @@ void copiarDados(Usuario **cabecaUsuarios, Livro **cabecaLivros) {
     *cabecaUsuarios = novoUsuario;
   }
 
-  char tempTitulo[500];
-  char tempAutor[500];
-  char tempEditora[500];
+  char tempTitulo[300];
+  char tempAutor[300];
+  char tempEditora[300];
   int tempAnoPublicacao;
   int tempCopias;
 
@@ -177,17 +190,17 @@ void copiarDados(Usuario **cabecaUsuarios, Livro **cabecaLivros) {
     strcpy(novoLivro->editora, tempEditora);
     novoLivro->anoPublicacao = tempAnoPublicacao;
     novoLivro->copias = tempCopias;
-    novoLivro->prox = *cabecaLivros;
-    *cabecaLivros = novoLivro;
+    novoLivro->prox = (*cabecaUsuarios)->livros;
+    (*cabecaUsuarios)->livros = novoLivro;
   }
 
   fclose(arquivoUsuarios);
   fclose(arquivoLivros);
 }
 
-void Sair(Usuario *cabecaUsuarios, Livro *cabecaLivros) {
+void Sair(Usuario *cabecaUsuarios) {
   ordenarAlfabeticamente(&cabecaUsuarios);
-  escreverDados(cabecaUsuarios, cabecaLivros);
+  escreverDados(cabecaUsuarios);
   Usuario *atualUsuario = cabecaUsuarios;
 
   while (atualUsuario != NULL) {
@@ -196,7 +209,8 @@ void Sair(Usuario *cabecaUsuarios, Livro *cabecaLivros) {
     free(temp);
   }
 
-  Livro *atualLivro = cabecaLivros;
+  Livro *atualLivro = (*cabecaUsuarios).livros;
+
   while (atualLivro != NULL) {
     Livro *temp = atualLivro;
     atualLivro = atualLivro->prox;
