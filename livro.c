@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void emprestarLivro(Usuario *cabecaUsuarios, Livro **cabecaLivros) {
+void emprestarLivro(Usuario *cabecaUsuarios) {
   char titulo[100];
   char usuarioNome[100];
 
@@ -26,7 +26,7 @@ void emprestarLivro(Usuario *cabecaUsuarios, Livro **cabecaLivros) {
         return;
       }
 
-      Livro *livroAtual = *cabecaLivros;
+      Livro *livroAtual = cabecaUsuarios->livros;
       while (livroAtual != NULL) {
         if (strcmp(livroAtual->titulo, titulo) == 0 &&
             livroAtual->copias != 0) {
@@ -53,7 +53,7 @@ void emprestarLivro(Usuario *cabecaUsuarios, Livro **cabecaLivros) {
   return;
 }
 
-void devolverLivro(Usuario *cabecaUsuarios, Livro **cabecaLivros) {
+void devolverLivro(Usuario *cabecaUsuarios) {
   char titulo[100];
   char nome[100];
 
@@ -84,17 +84,25 @@ void devolverLivro(Usuario *cabecaUsuarios, Livro **cabecaLivros) {
 
         if (strcmp(tempTitulo, titulo) == 0) {
           strcpy(livroEmprestado, "");
-          Livro *livroAtual = *cabecaLivros;
+          Livro *livroAtual = cabecaUsuarios->livros;
 
           while (livroAtual != NULL) {
             if (strcmp(livroAtual->titulo, titulo) == 0) {
               livroAtual->copias++;
+              if (strcmp(usuarioAtual->livrosEmprestados, "|") == 0) {
+                strcpy(usuarioAtual->livrosEmprestados, "");
+              }
               printf("| Livro \"%s\" devolvido com sucesso!\n|\n", titulo);
+
               return;
             }
             livroAtual = livroAtual->prox;
           }
+          if (strcmp(usuarioAtual->livrosEmprestados, "|") == 0) {
+            strcpy(usuarioAtual->livrosEmprestados, "");
+          }
           printf("\033[2J\033[H");
+          printf("| Livro \"%s\" devolvido com sucesso!\n|\n", titulo);
           return;
         }
         livroEmprestado = strtok(NULL, "|");
@@ -110,7 +118,7 @@ void devolverLivro(Usuario *cabecaUsuarios, Livro **cabecaLivros) {
   printf("| Usuario nao encontrado.\n|\n");
 }
 
-void editarLivro(Usuario *cabecaUsuarios, Livro **cabecaLivros) {
+void editarLivro(Usuario *cabecaUsuarios) {
   char titulo[100];
   printf("\033[2J\033[H");
   printf("| Editar Livro\n|\n");
@@ -121,7 +129,7 @@ void editarLivro(Usuario *cabecaUsuarios, Livro **cabecaLivros) {
     return;
   }
 
-  Livro *atual = *cabecaLivros;
+  Livro *atual = cabecaUsuarios->livros;
 
   while (atual != NULL) {
     if (strcmp(atual->titulo, titulo) == 0 && atual->copias != 0) {
@@ -209,7 +217,7 @@ void editarLivro(Usuario *cabecaUsuarios, Livro **cabecaLivros) {
   printf("| Livro não encontrado ou indisponivel.\n|\n");
 }
 
-void buscarLivro(Livro **cabecaLivros) {
+void buscarLivro(Usuario *cabecaUsuarios) {
   char titulo[100];
   printf("\033[2J\033[H");
   printf("| Buscar Livro\n");
@@ -220,7 +228,7 @@ void buscarLivro(Livro **cabecaLivros) {
     return;
   }
 
-  Livro *livroAtual = *cabecaLivros;
+  Livro *livroAtual = cabecaUsuarios->livros;
 
   while (livroAtual != NULL) {
     if (strcmp(livroAtual->titulo, titulo) == 0) {
