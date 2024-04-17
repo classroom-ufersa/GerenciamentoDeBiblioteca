@@ -8,7 +8,7 @@
 - Desenvolvedores
 
 ## Sobre nosso projeto
-Este é um projeto de gerenciamento de biblioteca em C. Nossa biblioteca virtual é chamada de "Bytes de Livros", O mesmo foi desenvolvido com o objetivo de proporcionar uma maneira eficiente e organizada de administrar uma biblioteca fictícia. Utilizamos duas TADs distintas para representar os livros e os usuários da biblioteca, além de criar um módulo para funções gerais.
+Este é um projeto de gerenciamento de biblioteca em C. Nossa biblioteca virtual é chamada de "Bytes de Livros", O mesmo foi desenvolvido com o objetivo de proporcionar uma maneira eficiente e organizada de administrar uma biblioteca fictícia. Utilizamos duas TADs distintas para representar os livros e os usuários da biblioteca, além de criar um módulo para funções gerais. Este projeto foi feito para inovar em escolas ou instituições de ensino que costumam usar caderno e caneta para anotar os livros emprestados, assim como era em nossa antiga escola que cursamos o ensino médio.
 
 ## Requisitos do projeto
 O projeto tem os seguintes requisitos:
@@ -26,24 +26,25 @@ O projeto tem os seguintes requisitos:
 ### Estrutura
 #### Usuários
 ```c
-typedef struct livro {
-  char titulo[500];
-  char autor[500];
-  char editora[500];
-  int anoPublicacao;
-  int copias;
-  struct livro *prox;
-} Livro;};
+typedef struct usuario {
+  char nome[300];
+  char contato[300];
+  char livrosEmprestados[300];
+  Livro *livros;
+  struct usuario *prox;
+} Usuario;
 ```
 
 #### Livros
 ```c
-typedef struct usuario {
-  char nome[500];
-  char contato[500];
-  char livrosEmprestados[500];
-  struct usuario *prox;
-} Usuario;;
+typedef struct livro {
+  char titulo[300];
+  char autor[300];
+  char editora[300];
+  int anoPublicacao;
+  int copias;
+  struct livro *prox;
+} Livro;
 ```
 São as duas estruturas presente no nosso código
 ### Módulos
