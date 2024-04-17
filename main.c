@@ -5,12 +5,10 @@
 #include <stdlib.h>
 
 int main(void) {
-
   Usuario *cabecaUsuarios = NULL;
-  Livro *cabecaLivros = NULL;
   char opcao[10];
 
-  copiarDados(&cabecaUsuarios, &cabecaLivros);
+  copiarDados(&cabecaUsuarios);
 
   while (1) {
     printf("| -=-=-=-=- Biblioteca Bytes -=-=-=-=-\n"
@@ -26,7 +24,7 @@ int main(void) {
            "| [8] - Sair\n| -> ");
     scanf("%s", opcao);
 
-    if (verificar(opcao, 1) == 0 && conferirCaractere(opcao)) {
+    if (verificar(opcao, 1) && conferirCaractere(opcao)) {
       switch (opcao[0]) {
       case '1':
         adicionarUsuario(&cabecaUsuarios);
@@ -35,22 +33,22 @@ int main(void) {
         removerUsuario(&cabecaUsuarios);
         break;
       case '3':
-        emprestarLivro(cabecaUsuarios, &cabecaLivros);
+        emprestarLivro(cabecaUsuarios);
         break;
       case '4':
-        devolverLivro(cabecaUsuarios, &cabecaLivros);
+        devolverLivro(cabecaUsuarios);
         break;
       case '5':
-        editarLivro(cabecaUsuarios, &cabecaLivros);
+        editarLivro(cabecaUsuarios);
         break;
       case '6':
-        buscarLivro(&cabecaLivros);
+        buscarLivro(cabecaUsuarios);
         break;
       case '7':
         listarUsuarios(cabecaUsuarios);
         break;
       case '8':
-        Sair(cabecaUsuarios, cabecaLivros);
+        Sair(cabecaUsuarios);
         return 0;
       default:
         printf("\033[2J\033[H");
