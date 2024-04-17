@@ -1,26 +1,21 @@
 #ifndef LIVRO_H
 #define LIVRO_H
 
-#include "usuario.h"
+typedef struct usuario Usuario;
 
 typedef struct livro {
-  char titulo[200];
-  char autor[200];
-  char editora[200];
+  char titulo[300];
+  char autor[300];
+  char editora[300];
   int anoPublicacao;
   int copias;
   struct livro *prox;
 } Livro;
 
-
-void editarLivro(Usuario *cabecaUsuarios, Livro **cabecaLivros);
-
-void buscarLivro(Livro **cabecaLivros);
-
-void emprestarLivro(Usuario *cabecaUsuarios, Livro **cabecaLivros);
-
-void devolverLivro(Usuario *cabecaUsuarios, Livro **cabecaLivros);
-
+void editarLivro(Usuario *cabecaUsuarios);
+void buscarLivro(Usuario *cabecaUsuarios);
+void emprestarLivro(Usuario *cabecaUsuarios);
+void devolverLivro(Usuario *cabecaUsuarios);
 void ordenarAlfabeticamente(Usuario **cabecaUsuarios);
 
 #endif
