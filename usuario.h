@@ -1,33 +1,23 @@
 #ifndef USUARIO_H
 #define USUARIO_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-struct livro;
+typedef struct livro Livro;
 
 typedef struct usuario {
-  char nome[200];
-  char contato[200];
-  char livrosEmprestados[200];
+  char nome[300];
+  char contato[300];
+  char livrosEmprestados[300];
+  Livro *livros;
   struct usuario *prox;
 } Usuario;
 
 void adicionarUsuario(Usuario **cabecaUsuarios);
-
 void removerUsuario(Usuario **cabecaUsuarios);
-
 void listarUsuarios(Usuario *cabecaUsuarios);
-
-void escreverDados(Usuario *cabecaUsuarios, struct livro *cabecaLivros);
-
-void copiarDados(Usuario **cabecaUsuarios, struct livro **cabecaLivros);
-
+void escreverDados(Usuario *cabecaUsuarios);
+void copiarDados(Usuario **cabecaUsuarios);
 int verificar(char *conteudo, int numeroOuLetra);
-
-void Sair(Usuario *cabecaUsuarios, struct livro *cabecaLivros);
-
+void Sair(Usuario *cabecaUsuarios);
 int conferirCaractere(char *conteudo);
 
 #endif
